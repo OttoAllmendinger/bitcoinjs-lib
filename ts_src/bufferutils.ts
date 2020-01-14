@@ -1,4 +1,5 @@
-import * as types from './types';
+/* eslint-disable */
+const types = require('./types');
 
 const typeforce = require('typeforce');
 const varuint = require('varuint-bitcoin');
@@ -14,7 +15,7 @@ function verifuint(value: number, max: number): void {
     throw new Error('value has a fractional component');
 }
 
-export function readUInt64LE(buffer: Buffer, offset: number): number {
+function readUInt64LE(buffer: Buffer, offset: number): number {
   const a = buffer.readUInt32LE(offset);
   let b = buffer.readUInt32LE(offset + 4);
   b *= 0x100000000;
@@ -23,7 +24,7 @@ export function readUInt64LE(buffer: Buffer, offset: number): number {
   return b + a;
 }
 
-export function writeUInt64LE(
+function writeUInt64LE(
   buffer: Buffer,
   value: number,
   offset: number,
@@ -35,7 +36,7 @@ export function writeUInt64LE(
   return offset + 8;
 }
 
-export function reverseBuffer(buffer: Buffer): Buffer {
+function reverseBuffer(buffer: Buffer): Buffer {
   if (buffer.length < 1) return buffer;
   let j = buffer.length - 1;
   let tmp = 0;
@@ -51,7 +52,7 @@ export function reverseBuffer(buffer: Buffer): Buffer {
 /**
  * Helper class for serialization of bitcoin data types into a pre-allocated buffer.
  */
-export class BufferWriter {
+class BufferWriter {
   constructor(public buffer: Buffer, public offset: number = 0) {
     typeforce(types.tuple(types.Buffer, types.UInt32), [buffer, offset]);
   }
@@ -98,7 +99,7 @@ export class BufferWriter {
 /**
  * Helper class for reading of bitcoin data types from a buffer.
  */
-export class BufferReader {
+class BufferReader {
   constructor(public buffer: Buffer, public offset: number = 0) {
     typeforce(types.tuple(types.Buffer, types.UInt32), [buffer, offset]);
   }
@@ -153,3 +154,11 @@ export class BufferReader {
     return vector;
   }
 }
+
+module.exports = {
+  readUInt64LE,
+  writeUInt64LE,
+  reverseBuffer,
+  BufferWriter,
+  BufferReader,
+};

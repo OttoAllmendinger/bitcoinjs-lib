@@ -1,9 +1,12 @@
-import * as assert from 'assert';
-import { describe, it } from 'mocha';
-import * as bufferutils from '../src/bufferutils';
-import { BufferReader, BufferWriter } from '../src/bufferutils';
+declare type BufferWriter = any;
+declare type BufferReader = any;
 
-import * as fixtures from './fixtures/bufferutils.json';
+/* eslint-disable */
+const assert = require('assert');
+const bufferutils = require('../src/bufferutils');
+const { BufferReader, BufferWriter } = require('../src/bufferutils');
+
+const fixtures = require('./fixtures/bufferutils.json');
 const varuint = require('varuint-bitcoin');
 
 describe('bufferutils', () => {
